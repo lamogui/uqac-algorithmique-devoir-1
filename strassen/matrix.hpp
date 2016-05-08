@@ -16,6 +16,7 @@
 #include <cassert>
 #include <algorithm>
 #include <iostream>
+#include <iomanip> //Format text
 
 
 #include "../common/smartcopyableobjects.hpp"
@@ -222,8 +223,8 @@ public:
       MatrixData<real> b11(next_n, next_n), b12(next_n, next_n), b21(next_n, next_n), b22(next_n, next_n);
       MatrixData<real> c11(next_n, next_n), c12(next_n, next_n), c21(next_n, next_n), c22(next_n, next_n);
 
-      MatrixData<real> p1(next_n, next_n), p2(next_n, next_n), p3(next_n, next_n), p4(next_n, next_n);
-      MatrixData<real> p5(next_n, next_n), p6(next_n, next_n), p7(next_n, next_n);
+      MatrixData<real> m1(next_n, next_n), m2(next_n, next_n), m3(next_n, next_n), m4(next_n, next_n);
+      MatrixData<real> m5(next_n, next_n), m6(next_n, next_n), m7(next_n, next_n);
 
       for (size_t i=0; i < next_n; i++)
       {
@@ -244,40 +245,40 @@ public:
       MatrixData<real> ra(next_n,next_n), rb(next_n,next_n);
       MatrixData<real>::add(a11,a22,ra);            // a11 + a22
       MatrixData<real>::add(b11, b22, rb);          // b11 + b22
-      MatrixData<real>::strassen(ra,rb,p1,next_n);  // p1 = (a11+a22) * (b11+b22)
+      MatrixData<real>::strassen(ra,rb,m1,next_n);  // m1 = (a11+a22) * (b11+b22)
 
       MatrixData<real>::add(a21, a22, ra);          // a21 + a22
-      MatrixData<real>::strassen(ra,b11,p2,next_n); // p2 = (a21+a22) * (b11)
+      MatrixData<real>::strassen(ra,b11,m2,next_n); // m2 = (a21+a22) * (b11)
 
       MatrixData<real>::sub(b12, b22, rb);          // b12 - b22
-      MatrixData<real>::strassen(a11,rb,p3,next_n); // p3 = (a11) * (b12 - b22)
+      MatrixData<real>::strassen(a11,rb,m3,next_n); // m3 = (a11) * (b12 - b22)
       
       MatrixData<real>::sub(b21, b11, rb);          // b21 - b11
-      MatrixData<real>::strassen(a22,rb,p4,next_n); // p4 = (a22) * (b21 - b11)
+      MatrixData<real>::strassen(a22,rb,m4,next_n); // m4 = (a22) * (b21 - b11)
 
-      MatrixData<real>::add(a21, a11, ra);          // a11 + a12
-      MatrixData<real>::strassen(ra,b22,p5,next_n); // p5 = (a11+a12) * (b22)
+      MatrixData<real>::add(a11, a12, ra);          // a11 + a12
+      MatrixData<real>::strassen(ra,b22,m5,next_n); // m5 = (a11+a12) * (b22)
 
       MatrixData<real>::sub(a21, a11, ra);          // a21 - a11
       MatrixData<real>::add(b11, b12, rb);          // b11 + b12
-      MatrixData<real>::strassen(ra,rb,p6,next_n);  // p6 = (a21-a11) * (b11+b12)
+      MatrixData<real>::strassen(ra,rb,m6,next_n);  // m6 = (a21-a11) * (b11+b12)
 
       MatrixData<real>::sub(a12, a22, ra);          // a12 - a22 
       MatrixData<real>::add(b21, b22, rb);          // b21 + b22
-      MatrixData<real>::strassen(ra,rb,p7,next_n);  // p7 = (a12-a22) * (b21+b22)
+      MatrixData<real>::strassen(ra,rb,m7,next_n);  // m7 = (a12-a22) * (b21+b22)
       
 
       //Compute C values
-      MatrixData<real>::add(p3, p4, c12);           // c12 = p3 + p5
-      MatrixData<real>::add(p2, p4, c21);           // c21 = p2 + p4
+      MatrixData<real>::add(m3, m5, c12);           // c12 = m3 + m5
+      MatrixData<real>::add(m2, m4, c21);           // c21 = m2 + m4
 
-      MatrixData<real>::add(p1, p4, ra);            // p1 + p4
-      MatrixData<real>::add(ra, p7, rb);            // p1 + p4 + p7
-      MatrixData<real>::sub(rb, p5, c11);           // c11 = p1 + p4 - p5 + p7
+      MatrixData<real>::add(m1, m4, ra);            // m1 + m4
+      MatrixData<real>::add(ra, m7, rb);            // m1 + m4 + m7
+      MatrixData<real>::sub(rb, m5, c11);           // c11 = m1 + m4 - m5 + m7
       
-      MatrixData<real>::add(p1, p3, ra);            // p1 + p3
-      MatrixData<real>::add(ra, p6, rb);            // p1 + p3 + p6
-      MatrixData<real>::sub(rb, p2, c22);           // c22 = p1 + p3 - p2 + p6
+      MatrixData<real>::add(m1, m3, ra);            // m1 + m3
+      MatrixData<real>::add(ra, m6, rb);            // m1 + m3 + m6
+      MatrixData<real>::sub(rb, m2, c22);           // c22 = m1 + m3 - m2 + m6
 
       for (size_t i = 0; i < next_n; i++)
       {
@@ -512,7 +513,7 @@ public:
     {
       for (size_t j = 0; j < columns(); j++)
       {
-        std::cout << get(i, j) << " ";
+        std::cout << std::fixed << std::setw(7) << std::setprecision(2) << std::setfill(' ') <<  get(i, j) << " ";
       }
       std::cout << std::endl;
     }

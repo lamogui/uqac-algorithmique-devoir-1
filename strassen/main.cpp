@@ -18,6 +18,9 @@ int main(int argc, char** argv)
   size_t nb_test;
 
   srand(time(NULL));
+  std::cout << "UQAC - Algorithmique - Devoir 1" << std::endl;
+  std::cout << "Ex 1: test strassen" << std::endl;
+  std::cout << "Author: Julien De Loor (julien.de-loor1loor@uqac.ca)" << std::endl;
 
   if (argc != 3)
   {
@@ -53,28 +56,99 @@ int main(int argc, char** argv)
   Matrix<real> Strassen(size, size), Naive(size, size);
   Matrix<real> s_n(size, size);
   
-  std::cout << "generate 2 random matrix of size " << size << "x" << size << std::endl;
+  std::cout << "================================================================" << std::endl;
+  std::cout << "generate 2 random matrix (A and B) of size " << size << "x" << size << std::endl;
+  std::cout << "================================================================" << std::endl;
   A.random(-10.0, 10.0); B.random(-10.0, 10.0);
-  A.print();
-  B.print();
+  if (size < 10)
+  {
+    A.print();
+    B.print();
+  }
+  std::cout << std::endl;
 
-  std::cout << "test strassen" << std::endl;
+  std::cout << "================================================================" << std::endl;
+  std::cout << "test strassen C=A*B " << std::endl;
+  std::cout << "================================================================" << std::endl;
   Strassen = A * B;
-  Strassen.print();
+  if (size < 10)
+  {
+    Strassen.print();
+  }
+  std::cout << std::endl;
 
-  std::cout << "test naive" << std::endl;
+  std::cout << "================================================================" << std::endl;
+  std::cout << "test naive C=A*B" << std::endl;
+  std::cout << "================================================================" << std::endl;
   Naive = Matrix<real>::mul_naive(A, B);
-  Naive.print();
+  if (size < 10)
+  {
+    Naive.print();
+  }
+  std::cout << std::endl;
 
+  std::cout << "================================================================" << std::endl;
   std::cout << "test equality of A and B (should be false)" << std::endl;
+  std::cout << "================================================================" << std::endl;
   bool equal = (A == B);
-  std::cout << "A == B ? " << equal << std::endl;
+  std::cout << "A == B ? " << (equal ? "true" : "false") << std::endl;
+  std::cout << std::endl;
 
-  std::cout << "test equality strassen result and naive multiply result (should be true)" << std::endl;
+  std::cout << "================================================================" << std::endl;
+  std::cout << "test equality strassen and naive results (should be true)" << std::endl;
+  std::cout << "================================================================" << std::endl;
+  std::cout << "Strassen - Naive" << std::endl;
   s_n = Strassen - Naive;
-  s_n.print();
+  if (size < 10)
+  {
+    s_n.print();
+  }
   equal = (Strassen == Naive);
-  std::cout << "Strassen == Naive ? " << equal << std::endl;
+  std::cout << "Strassen == Naive ? " << (equal ? "true" : "false") << std::endl;
+  std::cout << std::endl;
+
+  if (nb_test > 0)
+  {
+
+    clock_t  start,end;
+    double ms;
+
+    std::cout << "================================================================" << std::endl;
+    std::cout << "test performances of naive mult (run " << nb_test << " times)" << std::endl;
+    std::cout << "================================================================" << std::endl;
+
+    start = clock();
+    for (size_t n = 0; n < nb_test;  n++)
+    {
+      A.random(-10.0, 10.0); B.random(-10.0, 10.0);
+      Naive = Matrix<real>::mul_naive(A, B);
+    }
+    end = clock();
+    ms = (double)(end - start) * 1000.0 / CLOCKS_PER_SEC;
+    std::cout << "Computed " << nb_test << " naive mult of " << size << "x" << size << " random matrix in " << ms << " ms" << std::endl;
+    std::cout << std::endl;
+
+
+    std::cout << "================================================================" << std::endl;
+    std::cout << "test performances of strassen mult (run " << nb_test << " times)" << std::endl;
+    std::cout << "================================================================" << std::endl;
+
+    start = clock();
+    for (size_t n = 0; n < nb_test;  n++)
+    {
+      A.random(-10.0, 10.0); B.random(-10.0, 10.0);
+      Naive = A * B;
+    }
+    end = clock();
+    ms = (double)(end - start) * 1000.0 / CLOCKS_PER_SEC;
+    std::cout << "Computed " << nb_test << " strassen mult of " << size << "x" << size << " random matrix in " << ms << " ms" << std::endl;
+    std::cout << std::endl;
+
+
+
+
+  }
+
   
   system("PAUSE");
   return 0;
