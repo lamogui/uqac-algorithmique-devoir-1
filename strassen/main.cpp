@@ -3,6 +3,7 @@
 /*
   Devoir 1, Ex1 Strassen 
   Julien De Loor (julien.de-loor1@uqac.ca)
+  Contient le programme de test de strassen
 */
 
 #include <iostream>
@@ -143,9 +144,6 @@ int main(int argc, char** argv)
     ms = (double)(end - start) * 1000.0 / CLOCKS_PER_SEC;
     std::cout << "Computed " << nb_test << " strassen mult of " << size << "x" << size << " random matrix in " << ms << " ms" << std::endl;
     std::cout << std::endl;
-
-
-
 
   }
 

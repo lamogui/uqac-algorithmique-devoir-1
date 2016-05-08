@@ -22,3 +22,22 @@ bool isPowerOfTwo(size_t x)
 
   return (numberOfOneBits == 1);
 }
+
+uint8_t rand8()
+{
+  static unsigned const limit = RAND_MAX - RAND_MAX % 256;
+  unsigned result = rand();
+  while (result >= limit) {
+    result = rand();
+  }
+  return static_cast<uint8_t>(result % 256);
+}
+
+uint64_t rand64()
+{
+  uint64_t results = 0;
+  for (int count = 8; count > 0; --count) {
+    results = 256U * results + rand8();
+  }
+  return results;
+}

@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "strassen", "strassen\strassen.vcxproj", "{FF9975DA-699C-40A8-AE73-2C6CBAD3724B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tri", "tri\tri.vcxproj", "{9E702FB3-BE43-4F6D-9D62-6ED20FD4F982}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "karatsuba", "karatsuba\karatsuba.vcxproj", "{B538366B-A69E-4099-BDD7-EF055931C0F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -15,6 +19,14 @@ Global
 		{FF9975DA-699C-40A8-AE73-2C6CBAD3724B}.Debug|Win32.Build.0 = Debug|Win32
 		{FF9975DA-699C-40A8-AE73-2C6CBAD3724B}.Release|Win32.ActiveCfg = Release|Win32
 		{FF9975DA-699C-40A8-AE73-2C6CBAD3724B}.Release|Win32.Build.0 = Release|Win32
+		{9E702FB3-BE43-4F6D-9D62-6ED20FD4F982}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9E702FB3-BE43-4F6D-9D62-6ED20FD4F982}.Debug|Win32.Build.0 = Debug|Win32
+		{9E702FB3-BE43-4F6D-9D62-6ED20FD4F982}.Release|Win32.ActiveCfg = Release|Win32
+		{9E702FB3-BE43-4F6D-9D62-6ED20FD4F982}.Release|Win32.Build.0 = Release|Win32
+		{B538366B-A69E-4099-BDD7-EF055931C0F0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B538366B-A69E-4099-BDD7-EF055931C0F0}.Debug|Win32.Build.0 = Debug|Win32
+		{B538366B-A69E-4099-BDD7-EF055931C0F0}.Release|Win32.ActiveCfg = Release|Win32
+		{B538366B-A69E-4099-BDD7-EF055931C0F0}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

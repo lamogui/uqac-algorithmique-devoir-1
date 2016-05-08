@@ -2,6 +2,7 @@
 /*
   Devoir 1
   Julien De Loor (julien.de-loor1@uqac.ca)
+  Quelques fonction de math 
 */
 
 #pragma once
@@ -29,3 +30,9 @@ real randomRangeReal(real min, real max)
 {
   return randomReal<real>()*(max-min) + min;
 }
+
+uint8_t rand8();
+uint64_t rand64();
+
+
+
