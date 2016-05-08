@@ -1,9 +1,9 @@
 # Devoir 1
 
-Julien De Loor (julien.deloor@uqac.ca)
+Julien De Loor (julien.de-loor1@uqac.ca)
 
 Le projet est codé en C++ avec Visual Studio 2013 la solution devoir1.sln contient les 3 exercices, Strassen, Tri et Karatsuba
-Tous les executables sont dans le dossier bin
+Tous les executables sont dans le dossier *bin*
 
 ## Strassen
 
