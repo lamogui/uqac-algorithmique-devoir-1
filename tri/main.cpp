@@ -4,6 +4,8 @@
   Contient le programme de test des algorithmes de tri
 */
 
+#include "funcbenchmark.hpp"
+
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -29,26 +31,12 @@ void print_usage_and_exit(const char* argv_0,int code)
   exit(code);
 }
 
-void print_int_vector(const std::vector<int>& v)
+template<typename Iterator>
+void sort_heap_test(Iterator begin, Iterator end)
 {
-  std::cout << " [";
-  size_t bounds = v.size() > 4 ? 4 : v.size() - 1;
-  for (size_t i = 0; i < bounds; i++)
-  {
-    std::cout << v[i] << ", ";
-  }
-  if (v.size() > 1)
-  {
-    std::cout << " ... , " << v[v.size() - 1] << "] " << std::endl;
-  }
-  else
-  {
-    std::cout << " ]" << std::endl;
-  }
+  std::make_heap(begin, end);
+  std::sort_heap(begin, end);
 }
-
-
-typedef std::shared_ptr<std::vector<int>> int_vector_ptr;
 
 int main(int argc, char** argv)
 {
@@ -71,9 +59,19 @@ int main(int argc, char** argv)
   
 
   std::vector<int_vector_ptr> tables;
-  std::vector<int_vector_ptr> tables_sorted;
-  std::vector<int_vector_ptr> tables_sorted_inv;
   int multipliers[7] = { 1, 2, 3, 5, 7, 10, 100 };
+  string_vector test_names;
+  test_names.push_back("n");
+  test_names.push_back("2*n");
+  test_names.push_back("3*n");
+  test_names.push_back("5*n");
+  test_names.push_back("7*n");
+  test_names.push_back("10*n");
+  test_names.push_back("10*n sorted");
+  test_names.push_back("10*n sorted inverted");
+  test_names.push_back("100*n");
+  test_names.push_back("100*n sorted");
+  test_names.push_back("100*n sorted inverted");
 
 
   for (size_t k = 0; k < 7; k++)
@@ -103,18 +101,31 @@ int main(int argc, char** argv)
       std::sort(table_sorted->begin(), table_sorted->end(), std::less<int>());
       std::cout << "t_sorted = ";
       print_int_vector(*table_sorted);
-      tables_sorted.push_back(table_sorted);
+      tables.push_back(table_sorted);
 
 
       *table_sorted_inv = *table;
       std::cout << "t_sorted_inv = ";
       print_int_vector(*table_sorted_inv);
       std::sort(table_sorted_inv->begin(), table_sorted_inv->end(), std::greater<int>());
-      tables_sorted_inv.push_back(table_sorted_inv);
+      tables.push_back(table_sorted_inv);
     }
 
     std::cout << std::endl;
   }
+
+  //TESTS !!!
+  std::vector<FuncBenchmark::Ptr> benchmarks;
+  benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("std::sort", std::sort<std::vector<int>::iterator>, tables, test_names, n)));
+  benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("std::sort_heap", sort_heap_test<std::vector<int>::iterator>, tables, test_names, n)));
+  benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("std::stable_sort", std::stable_sort<std::vector<int>::iterator>, tables, test_names, n)));
+
+
+  for (size_t t = 0; t < benchmarks.size(); t++)
+  {
+    (*(benchmarks[t])).bench();
+  }
+
 
   system("PAUSE");
   return 0;
