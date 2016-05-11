@@ -17,6 +17,13 @@ Si vous lancez avec Visual Studio la taille de la matrice est de 8 et le nombre 
 
 Dans mes tests il apparait que strassen est toujours beaucoup plus lent que la multiplication naïve à cause (certainement) des nombreuses allocations. 
 
+## Tri
+
+tri.exe permet de tester les algos de tri en spécifiant n (par defaut n = 100)
+``` 
+tri.exe <n> 
+```
+
 
 
 
