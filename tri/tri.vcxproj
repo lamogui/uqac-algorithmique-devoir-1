@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClInclude Include="..\common\mathutils.hpp" />
     <ClInclude Include="funcbenchmark.hpp" />
+    <ClInclude Include="sortalgorithms.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

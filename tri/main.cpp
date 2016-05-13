@@ -5,6 +5,7 @@
 */
 
 #include "funcbenchmark.hpp"
+#include "sortalgorithms.hpp"
 
 #include <iostream>
 #include <cstdio>
@@ -31,12 +32,7 @@ void print_usage_and_exit(const char* argv_0,int code)
   exit(code);
 }
 
-template<typename Iterator>
-void sort_heap_test(Iterator begin, Iterator end)
-{
-  std::make_heap(begin, end);
-  std::sort_heap(begin, end);
-}
+
 
 int main(int argc, char** argv)
 {
@@ -116,8 +112,12 @@ int main(int argc, char** argv)
 
   //TESTS !!!
   std::vector<FuncBenchmark::Ptr> benchmarks;
+  benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("Tri par fusion", sort_merge<std::vector<int>::iterator>, tables, test_names, n)));
+  benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("Tri par bulles", sort_bubble<std::vector<int>::iterator>, tables, test_names, n)));
+  benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("Quicksort", sort_quick<std::vector<int>::iterator>, tables, test_names, n)));
+  benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("Tri par insertion", sort_insertion<std::vector<int>::iterator>, tables, test_names, n)));
+  benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("Tri par tas", sort_heap<std::vector<int>::iterator>, tables, test_names, n)));
   benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("std::sort", std::sort<std::vector<int>::iterator>, tables, test_names, n)));
-  benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("std::sort_heap", sort_heap_test<std::vector<int>::iterator>, tables, test_names, n)));
   benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("std::stable_sort", std::stable_sort<std::vector<int>::iterator>, tables, test_names, n)));
 
 
