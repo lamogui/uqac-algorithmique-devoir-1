@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 {
   size_t n = 100;
 
-  srand(time(NULL));
+  srand((unsigned int)time(NULL));
   std::cout << "UQAC - Algorithmique - Devoir 1" << std::endl;
   std::cout << "Ex 2: test des algorithmes de tri" << std::endl;
   std::cout << "Author: Julien De Loor (julien.de-loor1loor@uqac.ca)" << std::endl;
@@ -82,7 +82,7 @@ int main(int argc, char** argv)
     std::vector<int>::iterator it;
     for (it = table->begin(); it != table->end(); it++)
     {
-      *it = rand64();
+      *it = (int)(rand64()%INT_MAX);
     }
     std::cout << "t_random = ";
     print_int_vector(*table);
@@ -107,7 +107,8 @@ int main(int argc, char** argv)
       tables.push_back(table_sorted_inv);
     }
 
-    std::cout << std::endl;
+
+
   }
 
   //TESTS !!!
@@ -115,9 +116,12 @@ int main(int argc, char** argv)
   benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("Tri par fusion", sort_merge<std::vector<int>::iterator>, tables, test_names, n)));
   benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("Tri par bulles", sort_bubble<std::vector<int>::iterator>, tables, test_names, n)));
   benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("Quicksort", sort_quick<std::vector<int>::iterator>, tables, test_names, n)));
+  benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("Quicksort rand", sort_quick_rand<std::vector<int>::iterator>, tables, test_names, n)));
   benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("Tri par insertion", sort_insertion<std::vector<int>::iterator>, tables, test_names, n)));
   benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("Tri par tas", sort_heap<std::vector<int>::iterator>, tables, test_names, n)));
+  benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("Tri par base", sort_radix<std::vector<int>::iterator>, tables, test_names, n)));
   benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("std::sort", std::sort<std::vector<int>::iterator>, tables, test_names, n)));
+  benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("std::sort_heap", std_sort_heap<std::vector<int>::iterator>, tables, test_names, n)));
   benchmarks.push_back(FuncBenchmark::Ptr( new FuncBenchmark("std::stable_sort", std::stable_sort<std::vector<int>::iterator>, tables, test_names, n)));
 
 
@@ -126,6 +130,59 @@ int main(int argc, char** argv)
     (*(benchmarks[t])).bench();
   }
 
+  std::cout << "================================================================" << std::endl;
+  std::cout << "Check algos results" << std::endl;
+  std::cout << "================================================================" << std::endl;
+  
+
+  std::vector<int> test_table(20), sorted_table;
+  std::vector<int>::iterator it;
+  for (it = test_table.begin(); it != test_table.end(); it++)
+  {
+    *it = (int)(rand64() % INT_MAX);
+  }
+  sorted_table = test_table;
+  std::sort(sorted_table.begin(), sorted_table.end());
+
+
+  for (size_t t = 0; t < benchmarks.size(); t++)
+  {
+    (*(benchmarks[t])).test(test_table,sorted_table);
+  }
+
+  std::cout << "================================================================" << std::endl;
+  std::cout << "Bench Results " << std::endl;
+  std::cout << "================================================================" << std::endl;
+
+  printf("\n%20.20s |", "Tps moyen (ms)");
+  for (n = 0; n < test_names.size(); n++)
+  {
+    printf("%6.6s |", test_names[n].c_str());
+  }
+  printf("\n");
+  printf(" ------------------------------------------------------------------------------------------------------------\n");
+  for (size_t t = 0; t < benchmarks.size(); t++)
+  {
+    (*(benchmarks[t])).print_bench_results();
+  }
+
+
+  FILE* f = fopen("output.csv", "w");
+  if (f)
+  {
+    fprintf(f, "%s;", "Tps moyen (ms)");
+    for (n = 0; n < test_names.size(); n++)
+    {
+      fprintf(f, "%s;", test_names[n].c_str());
+    }
+    fprintf(f,"\n");
+    for (size_t t = 0; t < benchmarks.size(); t++)
+    {
+      (*(benchmarks[t])).fprint_bench_results(f);
+    }
+    fclose(f);
+    std::cout << "results saved in 'output.csv'" << std::endl;
+  }
 
   system("PAUSE");
   return 0;

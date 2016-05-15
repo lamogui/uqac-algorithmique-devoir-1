@@ -6,6 +6,7 @@
 */
 
 #include "mathutils.hpp"
+#include <cassert>
 
 bool isPowerOfTwo(size_t x)
 {
@@ -41,3 +42,11 @@ uint64_t rand64()
   }
   return results;
 }
+
+size_t randomRange(size_t begin, size_t end)
+{
+  assert(begin < end);
+  size_t interval = end - begin;
+  return (rand64() % interval) + begin;
+}
+

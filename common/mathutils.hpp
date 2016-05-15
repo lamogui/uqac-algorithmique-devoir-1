@@ -19,6 +19,8 @@ bool isRealEqual(real a, real b, real eps)
   return (abs(a - b) < eps);
 }
 
+size_t randomRange(size_t begin, size_t end);
+
 template<typename real>
 real randomReal()
 {

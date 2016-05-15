@@ -3,7 +3,7 @@
 /*
   Devoir 1, Ex2 Tri 
   Julien De Loor (julien.de-loor1@uqac.ca)
-  Un classe pour pseudo automatiser les tests
+  Une classe pour pseudo automatiser les tests
 */
 
 #include <memory>
@@ -47,6 +47,7 @@ public:
   std::vector<int_vector_ptr> test_tables;
   sort_func func;
   size_t n;
+  std::vector<double> times;
 
   typedef std::shared_ptr<FuncBenchmark> Ptr;
 
@@ -66,9 +67,48 @@ public:
   {
   }
 
+  bool test(const std::vector<int>& test, const std::vector<int>& result)
+  {
+    assert(test.size() == result.size());
+    size_t size = test.size();
+    std::vector<int> sorted = test;
+    func(sorted.begin(), sorted.end());
+    
+    bool success = true;
+    for (size_t n = 0; n < size; n++)
+    {
+      if (sorted[n] != result[n])
+      {
+        success = false;
+      }
+    }
+    std::cout << name << ": " << (success ? "true" : "false") << std::endl;
+    return success;
+  }
+  
+  void print_bench_results()
+  {
+    printf("%20.20s |", name.c_str());
+    for (n = 0; n < times.size(); n++)
+    {
+      printf("%6g |", times[n]/10.0);
+    }
+    printf("\n");
+  }
+
+  void fprint_bench_results(FILE* f)
+  {
+    fprintf(f, "%s;", name.c_str());
+    for (n = 0; n < times.size(); n++)
+    {
+      fprintf(f, "%.9g;", times[n]/10.0);
+    }
+    fprintf(f,"\n");
+  }
   
   void bench()
   {
+    times.clear();
 
     assert(test_tables.size() == test_names.size());
 
@@ -105,8 +145,9 @@ public:
         func(tables[test_type][i].begin(), tables[test_type][i].end());
       }
       end = clock();
-      double t = ((double)(end)-(double)(start)) / (double)(CLOCKS_PER_SEC);
-      std::cout << "Ended in  " << t << " seconds" << std::endl << std::endl;
+      double t = (((double)(end)-(double)(start)) / (double)(CLOCKS_PER_SEC))*1000.0;
+      times.push_back(t);
+      std::cout << "Ended in  " << t << " ms" << std::endl << std::endl;
     }
   }
 };

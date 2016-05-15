@@ -18,7 +18,7 @@ int main(int argc, char** argv)
   size_t size;
   size_t nb_test;
 
-  srand(time(NULL));
+  srand((unsigned int)time(NULL));
   std::cout << "UQAC - Algorithmique - Devoir 1" << std::endl;
   std::cout << "Ex 1: test strassen" << std::endl;
   std::cout << "Author: Julien De Loor (julien.de-loor1loor@uqac.ca)" << std::endl;
