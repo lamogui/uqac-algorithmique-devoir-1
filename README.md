@@ -23,7 +23,16 @@ tri.exe permet de tester les algos de tri en spécifiant n (par defaut n = 100)
 ``` 
 tri.exe <n> 
 ```
+tri.exe exporte le résultat dans le fichier 'output.csv'. Les tableaux, courbes et conclusions 
+sont dans le pdf 'resultats tri.pdf'
 
+##Karatsuba
 
+karastuba.exe est une mini calculatrice qui supporte les additions et multiplications de 2
+nombres entiers positifs.
 
+``` 
+karatsuba.exe <a> <'+' or '*'> <b>
+```
 
+Note: il faut un espace entre le '+' ou le '*' et les nombres.

@@ -4,6 +4,8 @@
   Contient le programme de test des algorithmes de tri
 */
 
+#pragma warning(disable: 4996) //Annoying fopen security issue
+
 #include "funcbenchmark.hpp"
 #include "sortalgorithms.hpp"
 
