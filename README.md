@@ -19,7 +19,7 @@ Dans mes tests il apparait que strassen est toujours beaucoup plus lent que la m
 
 ## Tri
 
-tri.exe permet de tester les algos de tri en spécifiant n (par defaut n = 100)
+*tri.exe* permet de tester les algos de tri en spécifiant n (par defaut n = 100)
 ``` 
 tri.exe <n> 
 ```
@@ -28,7 +28,7 @@ sont dans le pdf 'resultats tri.pdf'
 
 ##Karatsuba
 
-karastuba.exe est une mini calculatrice qui supporte les additions et multiplications de 2
+*karastuba.exe* est une mini calculatrice qui supporte les additions et multiplications de 2
 nombres entiers positifs.
 
 ``` 

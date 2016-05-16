@@ -51,9 +51,9 @@ int main(int argc, char** argv)
     case '+':
       r = a + b;
       break;
-    /*case '*':
+    case '*':
       r = a * b;
-      break;*/
+      break;
     default:
       printInfo();
       std::cerr << "usage: " << argv[0] << " <a> <+ or *> <b>" << std::endl;
