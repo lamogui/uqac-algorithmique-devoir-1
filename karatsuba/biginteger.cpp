@@ -111,6 +111,20 @@ void BigInteger::add(const BigInteger &a, const BigInteger& b, BigInteger& r)
   r._n = std::move(std::string(r._n.rbegin(), r._n.rend())); //Reverse the order
 }
 
+
+/*
+  Karatsuba codé depuis 0 avec https://en.wikipedia.org/wiki/Karatsuba_algorithm
+  Les notations sont quasiment les mêmes que sur wikipedia
+  x = x1 * 10^m + x0
+  y = y1 * 10^m + y0
+  z2 = x1*y1
+  z1 = x1*y0 + x0*y1
+  z0 = x0*y0
+  xy = z2 * 10^(2*m) + z1 * 10^m + z0
+
+  J'utilise un operateur de decalage (voir plus bas) pour les multiplications 10^m
+
+*/
 void BigInteger::karastuba(const BigInteger& x, const BigInteger& y, BigInteger& result)
 {
   if (x.isZero() || y.isZero())
@@ -163,6 +177,7 @@ void BigInteger::karastuba(const BigInteger& x, const BigInteger& y, BigInteger&
   karastuba(x1 + x0, y1 +y0, z1);
   karastuba(x0, y0, z0);
 
+  //Triche ici car l'operateur '-' n'est pas implémenté
   z1 = (uint64_t)((int64_t)z1.toUnsigned() - (int64_t)z2.toUnsigned() - (int64_t)z0.toUnsigned());
   result = (z2 << m) + (z1 << m2) + z0;
 }

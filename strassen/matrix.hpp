@@ -204,7 +204,21 @@ public:
     }
   }
 
-  //Strassen
+  /*
+    Strassen
+    J'ai utilisé wikipedia comme principale source (https://fr.wikipedia.org/wiki/Algorithme_de_Strassen)
+    C = A * B
+
+    Pour chaque matrice M la notation suivante est utilisé pour découper la matrice en 4 sous matrices:
+
+    M = [ M11 M12
+          M21 M22 ]
+
+    On effectue ce traitement pour A, B et C. Le reste des opérations sont tirés de wikipédia
+    (voir plus bas)
+  
+  */
+
   static void strassen(const MatrixData<real>& a, const MatrixData<real>& b, MatrixData<real>& c, size_t n)
   {
     assert(a.rows() == n && a.columns() == n);
@@ -242,7 +256,7 @@ public:
         }
       }
 
-      MatrixData<real> ra(next_n,next_n), rb(next_n,next_n);
+      MatrixData<real> ra(next_n,next_n), rb(next_n,next_n); //Pour stocker les resultats des additions
       MatrixData<real>::add(a11,a22,ra);            // a11 + a22
       MatrixData<real>::add(b11, b22, rb);          // b11 + b22
       MatrixData<real>::strassen(ra,rb,m1,next_n);  // m1 = (a11+a22) * (b11+b22)
